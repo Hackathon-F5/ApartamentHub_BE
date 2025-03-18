@@ -30,7 +30,16 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $apartment = Apartment::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'description' => $request->description,
+            'availability' => $request->availability,
+            'people' => $request->people
+        ]);
+
+        $apartment->save();
+        return response()->json($apartment, 200);
     }
 
     /**
@@ -38,7 +47,8 @@ class ApartmentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $apartment = Apartment::findOrFail($id);
+        return response()->json($apartment, 200);
     }
 
     /**
