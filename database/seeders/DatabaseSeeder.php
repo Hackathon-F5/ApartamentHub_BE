@@ -16,14 +16,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        Apartment::factory()->create([
+        Apartment::create([
             'name' => 'Apartment 1',
             'address' => 'street 1',
             'description' => 'hello',
             'availability' => true,
             'people' => 3
         ]);
-        Apartment::factory()->create([
+        Apartment::create([
             'name' => 'Apartment 2',
             'address' => 'street 2',
             'description' => 'hello',
