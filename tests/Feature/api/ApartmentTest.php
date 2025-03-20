@@ -50,7 +50,6 @@ class ApartmentTest extends TestCase
 
     public function test_CreateApartmentWithTagsAndPictures()
     {
-        // Arrange: Datos simulados
         $apartment = [
             'name' => 'Luxury Apartment',
             'address' => '123 Main Street',
@@ -63,10 +62,8 @@ class ApartmentTest extends TestCase
             'pictures' => ['url1.jpg', 'url2.jpg']
         ];
 
-        // Act: Petición a la API
         $response = $this->postJson(route('apistore'), $apartment);
 
-        // Assert: Verificar creación correcta
         $response->assertStatus(201)
                  ->assertJsonFragment(['name' => 'Luxury Apartment'])
                  ->assertJsonCount(2, 'tags')
