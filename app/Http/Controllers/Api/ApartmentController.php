@@ -38,6 +38,8 @@ class ApartmentController extends Controller
             'description' => $request->description,
             'availability'=> $request->availability,
             'people'      => $request->people,
+            'price' => $request->price,
+            'size' => $request->size
         ]);
 
         if (!empty($request->tags)) {
