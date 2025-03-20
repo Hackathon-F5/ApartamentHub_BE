@@ -50,26 +50,30 @@ class ApartmentTest extends TestCase
 
     public function test_CreateApartmentWithTagsAndPictures()
     {
-        $response = $this->post(route('apistore'),[
-            'name' => 'piso bonillo',
-            'address' => 'calle cuadrante',
-            'description' => 'cuantro dormitorios',
+        // Arrange: Datos simulados
+        $apartment = [
+            'name' => 'Luxury Apartment',
+            'address' => '123 Main Street',
+            'description' => 'Spacious and modern.',
             'availability' => true,
             'people' => 4,
             'price' => 1000,
             'size' => 1000,
             'tags' => ['Luxury', 'Modern'],
             'pictures' => ['url1.jpg', 'url2.jpg']
-        ]);
-    
-            $response = $this->get(route('apiindex'));
-            $response->assertStatus(201)
-                     ->assertJsonFragment(['name' => 'Luxury Apartment'])
-                     ->assertJsonCount(2, 'tags')
-                     ->assertJsonCount(2, 'pictures');
+        ];
 
-            $this->assertDatabaseHas('apartments', ['name' => 'Luxury Apartment']);
-            $this->assertDatabaseHas('tags', ['name' => 'Luxury']);
-            $this->assertDatabaseHas('pictures', ['url' => 'url1.jpg']);
+        // Act: Petición a la API
+        $response = $this->postJson(route('apistore'), $apartment);
+
+        // Assert: Verificar creación correcta
+        $response->assertStatus(201)
+                 ->assertJsonFragment(['name' => 'Luxury Apartment'])
+                 ->assertJsonCount(2, 'tags')
+                 ->assertJsonCount(2, 'pictures');
+
+        $this->assertDatabaseHas('apartments', ['name' => 'Luxury Apartment']);
+        $this->assertDatabaseHas('tags', ['name' => 'Luxury']);
+        $this->assertDatabaseHas('pictures', ['url' => 'url1.jpg']);
     }
 }
