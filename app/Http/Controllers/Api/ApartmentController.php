@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Tag;
+use App\Models\Picture;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,15 +33,32 @@ class ApartmentController extends Controller
     public function store(Request $request)
     {
         $apartment = Apartment::create([
-            'name' => $request->name,
-            'address' => $request->address,
+            'name'        => $request->name,
+            'address'     => $request->address,
             'description' => $request->description,
-            'availability' => $request->availability,
-            'people' => $request->people
+            'availability'=> $request->availability,
+            'people'      => $request->people,
         ]);
 
-        $apartment->save();
-        return response()->json($apartment, 200);
+        if (!empty($request->tags)) {
+            $tagIds = [];
+            foreach ($request->tags as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $tagIds[] = $tag->id;
+            }
+            $apartment->tags()->attach($tagIds);
+        }
+
+        if (!empty($request->pictures)) {
+            $pictureIds = [];
+            foreach ($request->pictures as $pictureUrl) {
+                $picture = Picture::firstOrCreate(['url' => $pictureUrl]);
+                $pictureIds[] = $picture->id;
+            }
+            $apartment->pictures()->attach($pictureIds);
+        }
+
+        return response()->json($apartment->load(['tags', 'pictures']), 201);
     }
 
     /**
