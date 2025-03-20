@@ -32,18 +32,6 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'        => 'required|string|max:255',
-            'address'     => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'availability'=> 'required|boolean',
-            'people'      => 'required|integer|min:1',
-            'tags'        => 'array',
-            'tags.*'      => 'string',
-            'pictures'    => 'array',
-            'pictures.*'  => 'string|url',
-        ]);
-
         $apartment = Apartment::create([
             'name'        => $request->name,
             'address'     => $request->address,
