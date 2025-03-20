@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('description');
             $table->boolean('availability');
             $table->integer('people');
+            $table->integer('price');
+            $table->integer('size');
             $table->timestamps();
         });
     }
