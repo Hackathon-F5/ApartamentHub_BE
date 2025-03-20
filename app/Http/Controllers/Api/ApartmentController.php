@@ -13,7 +13,7 @@ class ApartmentController extends Controller
      */
     public function index()
     {
-        $apartments = Apartment::all();
+        $apartments = Apartment::with(['tags', 'pictures'])->get();
         return response()->json($apartments, 200);
     }
 
@@ -47,7 +47,7 @@ class ApartmentController extends Controller
      */
     public function show(string $id)
     {
-        $apartment = Apartment::findOrFail($id);
+        $apartment = Apartment::with(['tags', 'pictures'])->find($id);
         return response()->json($apartment, 200);
     }
 
